@@ -1,0 +1,26 @@
+import discord
+from bot_logic import gen_pass
+# Переменная intents - хранит привилегии бота
+intents = discord.Intents.default()
+# Включаем привелегию на чтение сообщений
+intents.message_content = True
+# Создаем бота в переменной client и передаем все привелегии
+client = discord.Client(intents=intents)
+
+@client.event
+async def on_ready():
+    print(f'We have logged in as {client.user}')
+
+@client.event
+async def on_message(message):
+    if message.author == client.user:
+        return
+    if message.content.startswith('$hello'):
+        await message.channel.send("Hi!")
+    elif message.content.startswith('!pass'):
+        await message.channel.send(gen_pass(20))
+    elif 'pizza' in message.content:
+        await message.channel.send("kto skazal pizza")
+
+
+client.run("MTIwMzIyNTQxMzg2Njg4OTI0Nw.GoC3-s.9_BoOibCuPzHOg0e3tg9YAt-tVoh9X2yBq6-TY")
